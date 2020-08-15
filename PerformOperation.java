@@ -11,8 +11,6 @@ public class PerformOperation {
 			final String directory = "privatekeys";
 			String usbDrive  = args[0];
 			String userId = args[1];
-//			String usbDrive  = "D:";
-//			String userId = "1234";
 			String keyFileExtension = ".key";
 			
 			String keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
@@ -39,7 +37,6 @@ public class PerformOperation {
 		      }
 		      myReader.close();
  		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
