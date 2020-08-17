@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="lib" path="E:/Downloads/json-simple-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_181/jre/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/learning/java/coreusbconnect/json-20200518.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

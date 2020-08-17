@@ -9,9 +9,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 
 public class PerformOperation {
@@ -24,24 +26,24 @@ public class PerformOperation {
 //			makeHttpRequest("121414","2343434");
 			
 			final String directory = "privatekeys";
-//			String usbDrive  = args[0];
-//			String userId = args[1];
-//			String accessToken = args[2];
-//			String keysGenerationAllowedFlag = args[3];
+			String usbDrive  = args[0];
+			String userId = args[1];
+			String accessToken = args[2];
+			String keysGenerationAllowedFlag = args[3];
 			String keyFileExtension = ".key";
 			
-//			keyPath = usbDrive + File.separator + directory;
+			keyPath = usbDrive + File.separator + directory;
 			
-//			keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
+			keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
 			
-			
-//			if(keysGenerationAllowedFlag == "Y") {
+			System.out.println(keysGenerationAllowedFlag);
+			if(keysGenerationAllowedFlag == "Y") {
 				// TODO process to perform private key generation
-				generateKeyPair();
-//			}else {
+				generateKeyPair(userId, accessToken);
+			}else {
 				// TODO process to perform user login to EMR
 //				emrLogin();
-//			}
+			}
 			
 			
 			System.out.println(keyFullName);
@@ -53,7 +55,7 @@ public class PerformOperation {
 
 	}
 	
-	public static void generateKeyPair() throws IOException {
+	public static void generateKeyPair(String userid, String accessToken) throws IOException {
 //		File file = new File(keyPath);
 //		boolean fileExists = file.exists();
 //		if(!fileExists) {
@@ -65,8 +67,8 @@ public class PerformOperation {
 //			}
 //		}
 		
-		String userid = "45";
-		String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
+//		String userid = "45";
+//		String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
 		String url = "http://shadoboxbirdrockusers.local/api2/generate-key-emr-data";
 		String response = makeHttpRequest(userid, accessToken, url);
 		System.out.println(response);
@@ -107,10 +109,13 @@ public class PerformOperation {
 		connection.setDoOutput(true);
 		
 		JSONObject postData = new JSONObject();
-		
-		JSONObject innerObject = new JSONObject();
+		Map innerObject = new LinkedHashMap(2);
 		innerObject.put("access_token", accessToken);
 		innerObject.put("user_id", userid);
+		
+//		JSONObject innerObject = new JSONObject();
+//		innerObject.put("access_token", accessToken);
+//		innerObject.put("user_id", userid);
 		postData.put("object", innerObject);
 		
 		System.out.println(postData);
