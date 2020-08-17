@@ -16,12 +16,15 @@ public class executebatch {
 	public static void main(String[] args) {
 		try {
 //			String userid = args[0];
-			String userid = "1234567";
+			String userid = "45";
 //			String accessToken = args[1];
-			String accessToken = "passedaccesstoken";
+			String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
+//			String keysGenerationAllowedFlag = args[2];
+			String keysGenerationAllowedFlag = "Y";
 			if(!userid.isEmpty() && !accessToken.isEmpty()) {
 				if (isWindows()) {
-					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start MyBatch.bat", userid, accessToken);
+//					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start MyBatch.bat", userid, accessToken);
+					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start ext.bat", userid, accessToken, keysGenerationAllowedFlag);
 //					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", "wmic logicaldisk get description,name");
 					pb.start();
 //					Process process = pb.start();
