@@ -4,13 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -36,8 +33,8 @@ public class PerformOperation {
 			
 			keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
 			
-			System.out.println(keysGenerationAllowedFlag);
-			if(keysGenerationAllowedFlag == "Y") {
+			
+			if(keysGenerationAllowedFlag.equalsIgnoreCase("Y")) {
 				// TODO process to perform private key generation
 				generateKeyPair(userId, accessToken);
 			}else {
@@ -45,7 +42,7 @@ public class PerformOperation {
 //				emrLogin();
 			}
 			
-			
+			System.out.println(keysGenerationAllowedFlag);
 			System.out.println(keyFullName);
 			
 			
@@ -56,24 +53,33 @@ public class PerformOperation {
 	}
 	
 	public static void generateKeyPair(String userid, String accessToken) throws IOException {
-//		File file = new File(keyPath);
-//		boolean fileExists = file.exists();
-//		if(!fileExists) {
-//			boolean canWrite = file.canWrite();
-//			boolean dirCreated = file.mkdir();
-//			if(!dirCreated) {
-//				// TODO Write operation to be performed if directory creation fails
-//				System.out.println("directory No created");
-//			}
-//		}
+		File file = new File(keyPath);
+		boolean fileExists = file.exists();
+		if(!fileExists) {
+			boolean canWrite = file.canWrite();
+			boolean dirCreated = file.mkdir();
+			if(!dirCreated) {
+				// TODO Write operation to be performed if directory creation fails
+				System.out.println("directory No created");
+			}
+		}
 		
 //		String userid = "45";
 //		String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
 		String url = "http://shadoboxbirdrockusers.local/api2/generate-key-emr-data";
 		String response = makeHttpRequest(userid, accessToken, url);
+		
 		System.out.println(response);
+		
+		JSONObject respObj = new JSONObject(response);
+		String privateKey = respObj.getString("object");
+		
+		byte[] bytes = privateKey.getBytes(StandardCharsets.UTF_8);
+		String utf8EncodedprivateKey = new String(bytes, StandardCharsets.UTF_8);
+		 
+		System.out.println(utf8EncodedprivateKey);
 //		String privateKey = "??V??\\bE?F��??@??7=???D�a?_��\\f4?�?Y�?�o;?\\\\��7d?7?w??�MLs?\\r@\\t???/";
-//		writeInUSB(keyFullName, privateKey);
+		writeInUSB(keyFullName, utf8EncodedprivateKey);
 	}
 	
 	public static void emrLogin() throws FileNotFoundException {
@@ -109,13 +115,13 @@ public class PerformOperation {
 		connection.setDoOutput(true);
 		
 		JSONObject postData = new JSONObject();
-		Map innerObject = new LinkedHashMap(2);
-		innerObject.put("access_token", accessToken);
-		innerObject.put("user_id", userid);
-		
-//		JSONObject innerObject = new JSONObject();
+//		Map innerObject = new LinkedHashMap(2);
 //		innerObject.put("access_token", accessToken);
 //		innerObject.put("user_id", userid);
+		
+		JSONObject innerObject = new JSONObject();
+		innerObject.put("access_token", accessToken);
+		innerObject.put("user_id", userid);
 		postData.put("object", innerObject);
 		
 		System.out.println(postData);

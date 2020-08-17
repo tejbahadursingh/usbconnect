@@ -1,13 +1,6 @@
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.filechooser.FileSystemView;
 
 public class executebatch {
 	private static String OS = System.getProperty("os.name").toLowerCase();
@@ -22,10 +15,10 @@ public class executebatch {
 			String keysGenerationAllowedFlag = "Y";
 			if (!userid.isEmpty() && !accessToken.isEmpty()) {
 				if (isWindows()) {
-					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start MyBatch.bat", userid, accessToken,
-					keysGenerationAllowedFlag);
-//					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start ext.bat", userid, accessToken,
-//							keysGenerationAllowedFlag);
+//					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start MyBatch.bat", userid, accessToken,
+//					keysGenerationAllowedFlag);
+					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start ext.bat", userid, accessToken,
+							keysGenerationAllowedFlag);
 //					ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", "wmic logicaldisk get description,name");
 					pb.start();
 //					Process process = pb.start();
