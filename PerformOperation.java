@@ -4,11 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -24,26 +23,26 @@ public class PerformOperation {
 //			makeHttpRequest("121414","2343434");
 			
 			final String directory = "privatekeys";
-//			String usbDrive  = args[0];
-//			String userId = args[1];
-//			String accessToken = args[2];
-//			String keysGenerationAllowedFlag = args[3];
+			String usbDrive  = args[0];
+			String userId = args[1];
+			String accessToken = args[2];
+			String keysGenerationAllowedFlag = args[3];
 			String keyFileExtension = ".key";
 			
-//			keyPath = usbDrive + File.separator + directory;
+			keyPath = usbDrive + File.separator + directory;
 			
-//			keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
+			keyFullName = usbDrive + File.separator + directory + File.separator + userId + keyFileExtension;
 			
 			
-//			if(keysGenerationAllowedFlag == "Y") {
+			if(keysGenerationAllowedFlag.equalsIgnoreCase("Y")) {
 				// TODO process to perform private key generation
-				generateKeyPair();
-//			}else {
+				generateKeyPair(userId, accessToken);
+			}else {
 				// TODO process to perform user login to EMR
 //				emrLogin();
-//			}
+			}
 			
-			
+			System.out.println(keysGenerationAllowedFlag);
 			System.out.println(keyFullName);
 			
 			
@@ -53,25 +52,34 @@ public class PerformOperation {
 
 	}
 	
-	public static void generateKeyPair() throws IOException {
-//		File file = new File(keyPath);
-//		boolean fileExists = file.exists();
-//		if(!fileExists) {
-//			boolean canWrite = file.canWrite();
-//			boolean dirCreated = file.mkdir();
-//			if(!dirCreated) {
-//				// TODO Write operation to be performed if directory creation fails
-//				System.out.println("directory No created");
-//			}
-//		}
+	public static void generateKeyPair(String userid, String accessToken) throws IOException {
+		File file = new File(keyPath);
+		boolean fileExists = file.exists();
+		if(!fileExists) {
+			boolean canWrite = file.canWrite();
+			boolean dirCreated = file.mkdir();
+			if(!dirCreated) {
+				// TODO Write operation to be performed if directory creation fails
+				System.out.println("directory No created");
+			}
+		}
 		
-		String userid = "45";
-		String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
+//		String userid = "45";
+//		String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
 		String url = "http://shadoboxbirdrockusers.local/api2/generate-key-emr-data";
 		String response = makeHttpRequest(userid, accessToken, url);
+		
 		System.out.println(response);
+		
+		JSONObject respObj = new JSONObject(response);
+		String privateKey = respObj.getString("object");
+		
+		byte[] bytes = privateKey.getBytes(StandardCharsets.UTF_8);
+		String utf8EncodedprivateKey = new String(bytes, StandardCharsets.UTF_8);
+		 
+		System.out.println(utf8EncodedprivateKey);
 //		String privateKey = "??V??\\bE?F��??@??7=???D�a?_��\\f4?�?Y�?�o;?\\\\��7d?7?w??�MLs?\\r@\\t???/";
-//		writeInUSB(keyFullName, privateKey);
+		writeInUSB(keyFullName, utf8EncodedprivateKey);
 	}
 	
 	public static void emrLogin() throws FileNotFoundException {

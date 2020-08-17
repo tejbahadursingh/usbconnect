@@ -24,9 +24,10 @@ set /a choice = %ERRORLEVEL% - 1
 
 if not defined drives[%choice%].caption exit /b 0
 
-echo You chose !drives[%choice%].caption! (!drives[%choice%].volumename!^)
-javac PerformOperation.java
-java PerformOperation !drives[%choice%].caption! %1 %2 %3
+rem echo You chose !drives[%choice%].caption! (!drives[%choice%].volumename!^)
+rem javac PerformOperation.java
+java -cp json-20200518.jar PerformOperation.java !drives[%choice%].caption! %1 %2 %3
+exit
 goto :begin
 
 goto :EOF
