@@ -23,11 +23,16 @@ public class PerformOperation {
 //			makeHttpRequest("121414","2343434");
 			
 			final String directory = "privatekeys";
-			String usbDrive  = args[0];
-			String userId = args[1];
-			String accessToken = args[2];
-			String keysGenerationAllowedFlag = args[3];
+//			String usbDrive  = args[0];
+//			String userId = args[1];
+//			String accessToken = args[2];
+//			String keysGenerationAllowedFlag = args[3];
 			String keyFileExtension = ".key";
+			
+			String usbDrive  = "E:";
+			String userId = "45";
+			String accessToken = "57c00e070f1268b3d0c3e333aaa3992e17f2b1158d36333340a7977cdf9edcf0";
+			String keysGenerationAllowedFlag = "Y";
 			
 			keyPath = usbDrive + File.separator + directory;
 			
@@ -83,6 +88,8 @@ public class PerformOperation {
 	}
 	
 	public static void emrLogin() throws FileNotFoundException {
+		
+		
 		readFromUSB(keyFullName);
 	}
 	
